@@ -1,4 +1,5 @@
-CREATE TABLE `customer` (
+CREATE TABLE IF NOT EXISTS `customer` (
+
   `id` bigint NOT NULL AUTO_INCREMENT,
   `last_name` varchar(255) NOT NULL,
   `street` varchar(255) DEFAULT NULL,
@@ -12,7 +13,7 @@ CREATE TABLE `customer` (
   UNIQUE KEY `UK_dwk6cx0afu8bs9o4t536v1j5v` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE `credit` (
+CREATE TABLE IF NOT EXISTS `credit` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `credit_code` binary(16) NOT NULL,
   `credit_value` decimal(38,2) NOT NULL,
