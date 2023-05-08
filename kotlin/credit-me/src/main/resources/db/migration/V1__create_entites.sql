@@ -1,4 +1,5 @@
 CREATE TABLE IF NOT EXISTS `customer` (
+
   `id` bigint NOT NULL AUTO_INCREMENT,
   `last_name` varchar(255) NOT NULL,
   `street` varchar(255) DEFAULT NULL,
