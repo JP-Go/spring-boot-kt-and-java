@@ -1,4 +1,4 @@
-package app.creditme.domain.service
+package app.creditme.service
 
 import app.creditme.domain.Credit
 import java.util.UUID
