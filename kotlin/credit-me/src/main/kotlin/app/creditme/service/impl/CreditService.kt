@@ -1,11 +1,13 @@
-package app.creditme.service
+package app.creditme.service.impl
 
 import app.creditme.service.ICreditService
 import app.creditme.domain.Credit
 import app.creditme.repository.CreditRepository
 import app.creditme.service.ICustomerService
+import org.springframework.stereotype.Service
 import java.util.UUID
 
+@Service
 class CreditService(
   private val creditRepository: CreditRepository,
   private val customerService: ICustomerService
