@@ -11,14 +11,11 @@ data class CustomerUpdateDto(
     val street: String
 ) {
     fun toEntity(customer: Customer): Customer {
-        this.run {
-            customer.firstName = firstName
-            customer.firstName = firstName
-            customer.lastName = lastName
-            customer.income = income
-            customer.address.zipCode = zipCode
-            customer.address.street = street
-        }
+        customer.firstName = this.firstName
+        customer.lastName = this.lastName
+        customer.income = this.income
+        customer.address.zipCode = this.zipCode
+        customer.address.street = this.street
         return customer
     }
 }
