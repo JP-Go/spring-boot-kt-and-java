@@ -23,20 +23,20 @@ class CreditController(
 
   @PostMapping
   fun saveCredit(@RequestBody creditDto: CreditDto): ResponseEntity<String> {
-    this.creditService.save(creditDto.toEntity()).run {
-      return ResponseEntity(
-          "Credit ${this.creditCode} created for customer ${this.customer?.firstName}",
-          HttpStatus.CREATED
-      )
-    }
+    val credit = this.creditService.save(creditDto.toEntity())
+    return ResponseEntity(
+        "Credit ${credit.creditCode} created for customer ${credit.customer?.firstName}",
+        HttpStatus.CREATED
+    )
   }
 
   @GetMapping
   fun findAllByCustomerId(
       @RequestParam(value = "customer") customerId: Long
   ): ResponseEntity<List<CreditViewList>> {
+
     this.creditService.findAllByCustomer(customerId).map { CreditViewList(it) }.also {
-      return ResponseEntity(it,HttpStatus.OK)
+      return ResponseEntity(it, HttpStatus.OK)
     }
   }
 
@@ -46,6 +46,6 @@ class CreditController(
       @PathVariable("creditCode") creditCode: UUID,
   ): ResponseEntity<CreditView> {
     val credit = this.creditService.findByCreditCode(creditCode, customerId)
-    return ResponseEntity(CreditView(credit),HttpStatus.OK)
+    return ResponseEntity(CreditView(credit), HttpStatus.OK)
   }
 }

@@ -22,7 +22,7 @@ class CustomerController(private val customerService: CustomerService) {
   @PostMapping
   fun registerCustomer(@RequestBody customerDto: CustomerDto): ResponseEntity<String> {
     val customer = this.customerService.save(customerDto.toEntity())
-    return ResponseEntity("Customer $customer.email saved", HttpStatus.CREATED)
+    return ResponseEntity("Customer ${customer.email} saved", HttpStatus.CREATED)
   }
 
   @GetMapping("/{id}")
@@ -35,12 +35,15 @@ class CustomerController(private val customerService: CustomerService) {
       ResponseEntity(this.customerService.deleteById(id), HttpStatus.NO_CONTENT)
 
   @PatchMapping("/{id}")
-  fun updateCustomer(@PathVariable id: Long, customerUpdateDto: CustomerUpdateDto): ResponseEntity<CustomerView> {
+  fun updateCustomer(
+      @PathVariable id: Long,
+      @RequestBody customerUpdateDto: CustomerUpdateDto
+  ): ResponseEntity<CustomerView> {
 
-    val customer = this.customerService.findById(id).apply { customerUpdateDto.toEntity(this) }
+    val customer = this.customerService.findById(id)
+    val customerToUpdate = customerUpdateDto.toEntity(customer) 
+    val updatedCustomer = this.customerService.save(customerToUpdate)
 
-    val updatedCustomer = this.customerService.save(customer)
-
-    return ResponseEntity(CustomerView(updatedCustomer),HttpStatus.OK)
+    return ResponseEntity(CustomerView(updatedCustomer), HttpStatus.OK)
   }
 }
