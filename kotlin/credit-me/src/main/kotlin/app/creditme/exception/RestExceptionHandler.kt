@@ -1,6 +1,7 @@
 package app.creditme.exception
 
 import java.time.LocalDateTime
+import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.FieldError
@@ -23,13 +24,30 @@ class RestExceptionHander {
     return ResponseEntity(
         ExceptionDetails(
             title = "Bad Request",
-            message = "Missing or invalid fields",
+            message = "Missing or invalid fields.",
             timestamp = LocalDateTime.now(),
             status = HttpStatus.BAD_REQUEST.value(),
-            exception = exception.objectName,
+            exception = exception.javaClass.toString(),
             details = errors
         ),
         HttpStatus.BAD_REQUEST
+    )
+  }
+
+  @ExceptionHandler(DataIntegrityViolationException::class)
+  fun handleIntegrityException(
+      ex: DataIntegrityViolationException
+  ): ResponseEntity<ExceptionDetails> {
+    return ResponseEntity(
+        ExceptionDetails(
+            title = "Bad Request",
+            message = "Duplicate fields",
+            timestamp = LocalDateTime.now(),
+            status = HttpStatus.BAD_REQUEST.value(),
+            exception = ex.javaClass.toString(),
+            details = mutableMapOf(ex.cause.toString() to ex.message)
+        ),
+        HttpStatus.CONFLICT
     )
   }
 }
