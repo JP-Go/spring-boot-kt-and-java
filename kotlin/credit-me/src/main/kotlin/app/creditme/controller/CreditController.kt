@@ -4,6 +4,7 @@ import app.creditme.dto.CreditDto
 import app.creditme.dto.CreditView
 import app.creditme.dto.CreditViewList
 import app.creditme.service.impl.CreditService
+import jakarta.validation.Valid
 import java.util.UUID
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -22,7 +23,7 @@ class CreditController(
 ) {
 
   @PostMapping
-  fun saveCredit(@RequestBody creditDto: CreditDto): ResponseEntity<String> {
+  fun saveCredit(@RequestBody @Valid creditDto: CreditDto): ResponseEntity<String> {
     val credit = this.creditService.save(creditDto.toEntity())
     return ResponseEntity(
         "Credit ${credit.creditCode} created for customer ${credit.customer?.firstName}",
