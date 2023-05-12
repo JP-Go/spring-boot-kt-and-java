@@ -6,7 +6,7 @@ import app.creditme.domain.Address
 import jakarta.validation.constraints.NotEmpty
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Email
-import jakarta.validation.constraints.Min
+import jakarta.validation.constraints.Pattern
 import jakarta.validation.constraints.Digits
 import jakarta.validation.constraints.PositiveOrZero
 import org.hibernate.validator.constraints.br.CPF
@@ -21,10 +21,10 @@ data class CustomerDto(
    @field:Email(message = "Invalid email")
    val email: String,
    @field:NotEmpty(message  = "Password missing") 
-   @field:Min(6, message = "Password must have 6 characters or more")
+   @field:Pattern(regexp = ".{6,}", message = "Password must have 6 characters or more")
    val password: String,
    @field:NotEmpty(message = "ZipCode missing")
-   @field:Digits(message = "ZipCode must contain only digits", integer = 7,fraction = 0)
+   @field:Pattern(regexp = "\\d{5}-\\d{3}",message = "ZipCode must contain only digits and follow this pattern: ddddd-ddd")
    val zipCode: String,
    @field:NotEmpty(message = "Street missing")
    val street: String,
