@@ -9,6 +9,7 @@ import org.springframework.validation.ObjectError
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
+import app.creditme.domain.exception.CustomerNotFoundException
 
 @RestControllerAdvice
 class RestExceptionHander {
@@ -46,6 +47,21 @@ class RestExceptionHander {
             status = HttpStatus.BAD_REQUEST.value(),
             exception = ex.javaClass.toString(),
             details = mutableMapOf(ex.cause.toString() to ex.message)
+        ),
+        HttpStatus.CONFLICT
+    )
+  }
+
+  @ExceptionHandler(BussinessRuleException::class)
+  fun handleBussinessRuleException(ex:BussinessRuleException): ResponseEntity<ExceptionDetails>{
+    return ResponseEntity(
+        ExceptionDetails(
+            title = "Bad Request",
+            message = ex.message,
+            timestamp = LocalDateTime.now(),
+            status = HttpStatus.BAD_REQUEST.value(),
+            exception = ex.javaClass.toString(),
+            details = mutableMapOf(ex.javaClass.toString() to ex.message)
         ),
         HttpStatus.CONFLICT
     )
