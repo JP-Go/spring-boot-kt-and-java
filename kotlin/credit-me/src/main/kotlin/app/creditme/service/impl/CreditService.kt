@@ -2,6 +2,7 @@ package app.creditme.service.impl
 
 import app.creditme.service.ICreditService
 import app.creditme.domain.Credit
+import app.creditme.domain.exception.CreditNotFoundException
 import app.creditme.repository.CreditRepository
 import app.creditme.service.ICustomerService
 import org.springframework.stereotype.Service
@@ -28,7 +29,7 @@ class CreditService(
     {
         val credit = 
             this.creditRepository.findByCreditCode(creditCode) ?:
-            throw RuntimeException("Credit with code $creditCode not found") 
+            throw CreditNotFoundException("Credit with code $creditCode not found") 
 
         return if (credit.customer?.id == customerId) credit else throw RuntimeException("Contact admin")
     }
