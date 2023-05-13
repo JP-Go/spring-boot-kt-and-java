@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.ResponseStatus
 
 @RestController()
 @RequestMapping("/api/v1/customer")
@@ -31,9 +32,10 @@ class CustomerController(private val customerService: CustomerService) {
     val customer = this.customerService.findById(id)
     return ResponseEntity(CustomerView(customer), HttpStatus.OK)
   }
+
   @DeleteMapping("/{id}")
-  fun deleteCustomer(@PathVariable id: Long): ResponseEntity<Unit> =
-      ResponseEntity(this.customerService.deleteById(id), HttpStatus.NO_CONTENT)
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  fun deleteCustomer(@PathVariable id: Long) = this.customerService.deleteById(id)
 
   @PatchMapping("/{id}")
   fun updateCustomer(
